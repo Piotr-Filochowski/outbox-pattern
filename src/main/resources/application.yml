@@ -1,3 +1,8 @@
 spring:
   application:
-  name: outbox
+    name: outbox
+  datasource:
+    url: jdbc:postgresql://localhost:5432/outbox
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
