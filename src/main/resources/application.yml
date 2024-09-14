@@ -2,7 +2,8 @@ spring:
   application:
     name: outbox
   datasource:
-    url: jdbc:postgresql://localhost:5432/outbox
-    username: postgres
-    password: postgres
     driverClassName: org.postgresql.Driver
+  flyway:
+    table: schema_version
+    sql-migration-prefix: V_
+    baseline-on-migrate: true
