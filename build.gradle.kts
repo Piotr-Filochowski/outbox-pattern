@@ -43,9 +43,9 @@ dependencies {
 
 	// exposed
 	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:0.54.0")
+	implementation("org.jetbrains.exposed:exposed-java-time:0.54.0")
 
-
-
+	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
