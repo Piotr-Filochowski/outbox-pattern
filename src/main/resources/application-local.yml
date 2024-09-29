@@ -1,10 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/outbox
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5432/outbox?currentSchema=outbox
+    username: outbox_application
+    password: outbox_application_password
   flyway:
-    url: jdbc:postgresql://localhost:5432/outbox
-    user: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5432/outbox?currentSchema=outbox
+    user: outbox_application
+    password: outbox_application_password
     enabled: true
