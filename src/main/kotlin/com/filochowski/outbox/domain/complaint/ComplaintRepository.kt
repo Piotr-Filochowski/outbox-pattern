@@ -2,7 +2,7 @@ package com.filochowski.outbox.domain.complaint
 
 interface ComplaintRepository {
 
-    fun addNew(complaint: Complaint)
+    fun addNew(complaintSpecification: ComplaintSpecification)
 
     fun getAll(): Set<Complaint>
 }

@@ -9,8 +9,8 @@ class ComplaintService(
 ) {
 
     @Transactional
-    fun createComplaint(complaint: Complaint) {
-        repo.addNew(complaint)
+    fun createComplaint(complaintSpecification: ComplaintSpecification) {
+        repo.addNew(complaintSpecification)
     }
 
     @Transactional(readOnly = true)

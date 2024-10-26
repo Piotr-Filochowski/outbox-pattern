@@ -1,12 +1,15 @@
 package com.filochowski.outbox.adapter.db.complaint
 
+import com.filochowski.outbox.ComplaintId
 import com.filochowski.outbox.ProductId
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.author
+import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.complaintId
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.createdAt
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.productId
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.text
 import com.filochowski.outbox.domain.complaint.Author
 import com.filochowski.outbox.domain.complaint.Complaint
+import com.filochowski.outbox.domain.complaint.ComplaintSpecification
 import com.filochowski.outbox.domain.complaint.ComplaintRepository
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
@@ -16,12 +19,12 @@ import org.springframework.stereotype.Component
 @Component
 class ComplaintAdapter: ComplaintRepository {
 
-    override fun addNew(complaint: Complaint) {
+    override fun addNew(complaintSpecification: ComplaintSpecification) {
         ComplaintTable.insert { table ->
-            table[productId] = complaint.productId.id
-            table[createdAt] = complaint.createdAt
-            table[author] = complaint.author.value
-            table[text] = complaint.text
+            table[productId] = complaintSpecification.productId.raw
+            table[createdAt] = complaintSpecification.createdAt
+            table[author] = complaintSpecification.author.value
+            table[text] = complaintSpecification.text
         }
     }
 
@@ -30,6 +33,7 @@ class ComplaintAdapter: ComplaintRepository {
 
 private fun ResultRow.toDomain() =
     Complaint(
+        ComplaintId(this[complaintId]),
         ProductId(this[productId]),
         this[createdAt],
         Author(this[author]),
