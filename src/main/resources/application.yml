@@ -7,3 +7,21 @@ spring:
     table: schema_version
     sql-migration-prefix: V_
     baseline-on-migrate: true
+  kafka:
+    jaas:
+      enabled: true
+    consumer:
+      key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      value-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      client-id: "outbox-service"
+      group-id: "outbox-service-group"
+      auto-offset-reset: earliest
+    properties:
+      security.protocol: PLAINTEXT
+      sasl.mechanism: ''
+
+
+kafka:
+  topics:
+    complaint-created:
+      name: "complaint_created"

@@ -45,6 +45,9 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:0.54.0")
 	implementation("org.jetbrains.exposed:exposed-java-time:0.54.0")
 
+	// kafka
+	implementation("org.springframework.kafka:spring-kafka")
+
 	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
