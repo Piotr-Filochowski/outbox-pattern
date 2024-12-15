@@ -11,23 +11,30 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: outbox-zookeeper
+    ports:
+      - "2181:2181"
   kafka:
-    image: apache/kafka:latest
+    image: wurstmeister/kafka
     container_name: outbox-kafka
+    links:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    depends_on:
+      - zookeeper
     environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_NUM_PARTITIONS: 3
-
+      KAFKA_ADVERTISED_HOSTNAME: kafka
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:29092,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock%
   akhq:
     image: tchiotludo/akhq
     container_name: outbox-akhq
@@ -37,7 +44,7 @@ services:
           connections:
             docker-kafka-server:
               properties:
-                bootstrap.servers: "kafka:9093"
+                bootstrap.servers: "kafka:9092"
         micronaut:
           server:
             port: 8081

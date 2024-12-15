@@ -16,12 +16,9 @@ spring:
       client-id: "outbox-service"
       group-id: "outbox-service-group"
       auto-offset-reset: earliest
-    properties:
-      security.protocol: PLAINTEXT
-      sasl.mechanism: ''
 
 
 kafka:
   topics:
-    complaint-created:
-      name: "complaint_created"
+    complaints:
+      name: "complaints"

@@ -8,3 +8,9 @@ spring:
     user: outbox_application
     password: outbox_application_password
     enabled: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+    properties:
+      security.protocol: PLAINTEXT
+      sasl.mechanism: ''
