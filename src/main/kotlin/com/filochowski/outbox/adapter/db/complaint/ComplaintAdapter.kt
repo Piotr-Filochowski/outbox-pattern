@@ -3,7 +3,7 @@ package com.filochowski.outbox.adapter.db.complaint
 import com.filochowski.outbox.ComplaintId
 import com.filochowski.outbox.ProductId
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.author
-import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.complaintId
+import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.id
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.createdAt
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.productId
 import com.filochowski.outbox.adapter.db.complaint.ComplaintTable.text
@@ -33,7 +33,7 @@ class ComplaintAdapter: ComplaintRepository {
 
 private fun ResultRow.toDomain() =
     Complaint(
-        ComplaintId(this[complaintId]),
+        ComplaintId(this[id]),
         ProductId(this[productId]),
         this[createdAt],
         Author(this[author]),
